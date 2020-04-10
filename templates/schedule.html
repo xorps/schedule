@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Daily Assignments</title>
+        <meta name="format-detection" content="telephone=no">
+        <link rel="stylesheet" href="/static/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/theme.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+        <link rel="manifest" href="/static/site.webmanifest">
+        {# not using for now
+        <script src="/static/jquery-3.4.1.slim.min.js"></script>
+        <script src="/static/popper.min.js"></script>
+        <script src="/static/bootstrap.min.js"></script>
+        #}
+    </head>
+    <body>
+        <div class="container mt-3">
+
+            <!-- Header -->
+            <div class="row">
+                <div class="col"><a class="btn btn-sm btn-primary" href="/{{ date_prev }}">&lt;</a></div>
+                <div class="col-10">
+                    <h3 class="text-center">Daily Assignments for {{ date }}</h3>
+                </div>
+                <div class="col text-right"><a class="btn btn-sm btn-primary" href="/{{ date_next }}">&gt;</a></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="text-center">Generated on {{ generated_time }}. Polls every 5 minutes.</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <table class="table table-sm table-striped border">
+                        <thead class="bg-primary text-light border border-primary">
+                            <tr>
+                                <th colspan="7">Floor</th>
+                            </tr>
+                            <tr>
+                                <th>Shift</th>
+                                <th>Area Covered</th>
+                                <th>Hours</th>
+                                <th>Phone</th>
+                                <th>Name</th>
+                                <th>Comments</th>
+                                <th>Rounds</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for shift in floor_shifts %}
+                            <tr>
+                                <td>{{ shift[0] }}</td>
+                                <td>{{ area_covered(shift[0]) }}</td>
+                                <td>{{ hours(shift[0]) }}</td>
+                                <td>{{ phone(shift[0]) }}</td>
+                                <td>{{ shift[1] }}</td>
+                                <td>
+                                    <ul>
+                                    {% for comment in comments(shift[0]) %}
+                                        <li>{{ comment }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                    {% for round in rounds(shift[0]) %}
+                                        <li>{{ round }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <table class="table table-sm table-striped border">
+                        <thead class="bg-primary text-light border border-primary">
+                            <tr>
+                                <th colspan="4">MainRx</th>
+                            </tr>
+                            <tr>
+                                <th>Shift</th>
+                                <th>Hours</th>
+                                <th>Phone</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for shift in mainrx_shifts %}
+                            <tr>
+                                <td>{{ shift[0] }}</td>
+                                <td>{{ hours(shift[0]) }}</td>
+                                <td>{{ phone(shift[0]) }}</td>
+                                <td>{{ shift[1] }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <table class="table table-sm table-striped border"> 
+                        <thead class="bg-primary text-light border border-primary">
+                            <tr>
+                                <th colspan="4">Residents</th>
+                            </tr>
+                            <tr>
+                                <th>Area Covered</th>
+                                <th>Hours</th>
+                                <th>Phone</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> <!-- snip -->
+                            </tr>
+                            <tr><!-- snip -->
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    {% if sick_calls %}
+                    <table class="table table-sm table-striped border">
+                        <thead class="bg-primary text-light border border-primary">
+                            <tr>
+                                <th colspan="2">Sick Calls</th>
+                            </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Shift</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for shift in sick_calls %}
+                            <tr>
+                                <td>{{ shift[1] }}</td>
+                                <td>{{ shift[0] }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+
+                <div class="col">
+                    <table class="table table-sm table-striped border">
+                        <thead class="bg-primary text-light border border-primary">
+                            <tr>
+                                <th colspan="4">Tech</th>
+                            </tr>
+                            <tr>
+                                <th>Shift</th>
+                                <th>Hours</th>
+                                <th>Phone</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for shift in tech_shifts %}
+                            <tr>
+                                <td>{{ shift[0] }}</td>
+                                <td>{{ hours(shift[0]) }}</td>
+                                <td>{{ phone(shift[0]) }}</td>
+                                <td>{{ shift[1] }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

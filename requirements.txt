@@ -1,0 +1,6 @@
+flask
+openpyxl
+gunicorn
+talisman
+jinja2
+redis
